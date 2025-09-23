@@ -17,9 +17,30 @@ class _$NewsService extends NewsService {
   final definitionType = NewsService;
 
   @override
-  Future<Response<Result<QueryResult>>> queryNews({String? q}) {
+  Future<Response<Result<QueryResult>>> queryNews({
+    String? q,
+    String? sources,
+    String? domains,
+  }) {
     final Uri $url = Uri.parse('v2/everything');
-    final Map<String, dynamic> $params = <String, dynamic>{'q': q};
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'q': q,
+      'sources': sources,
+      'domains': domains,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<Result<QueryResult>, QueryResult>($request);
+  }
+
+  @override
+  Future<Response<Result<QueryResult>>> queryLatestNews({String? country}) {
+    final Uri $url = Uri.parse('v2/top-headlines');
+    final Map<String, dynamic> $params = <String, dynamic>{'country': country};
     final Request $request = Request(
       'GET',
       $url,

@@ -1,4 +1,5 @@
 import 'package:chopper/chopper.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:news_app/network/model_response.dart';
 import 'package:news_app/network/news_converter.dart';
 import 'package:news_app/network/query_result.dart';
@@ -6,7 +7,7 @@ import 'package:news_app/network/service_interface.dart';
 
 part 'news_service.chopper.dart';
 
-const String apikey = "";
+final String apikey = dotenv.env['apikey'] ?? '';
 const String apiUrl = "https://newsapi.org/";
 
 // interceptor to add the api key
@@ -20,7 +21,15 @@ Request _addQuery(Request req) {
 abstract class NewsService extends ChopperService implements ServiceInterface {
   @override
   @Get(path: 'v2/everything')
-  Future<NewsResponse> queryNews({@Query('q') String? q});
+  Future<NewsResponse> queryNews({
+    @Query('q') String? q,
+    @Query('sources') String? sources,
+    @Query('domains') String? domains,
+  });
+
+  @override
+  @Get(path: 'v2/top-headlines')
+  Future<NewsResponse> queryLatestNews({@Query('country') String? country});
 
   static NewsService create() {
     final client = ChopperClient(

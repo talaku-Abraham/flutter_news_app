@@ -22,14 +22,14 @@ Map<String, dynamic> _$NewsResultToJson(NewsResult instance) =>
     };
 
 NewsArticle _$NewsArticleFromJson(Map<String, dynamic> json) => NewsArticle(
-      author: json['author'] as String,
-      content: json['content'] as String,
-      description: json['description'] as String,
-      publishedAt: json['publishedAt'] as String,
+      author: json['author'] as String?,
+      content: json['content'] as String?,
+      description: json['description'] as String?,
+      publishedAt: json['publishedAt'] as String?,
       source: Source.fromJson(json['source'] as Map<String, dynamic>),
-      title: json['title'] as String,
-      url: json['url'] as String,
-      urlToImage: json['urlToImage'] as String,
+      title: json['title'] as String?,
+      url: json['url'] as String?,
+      urlToImage: json['urlToImage'] as String?,
     );
 
 Map<String, dynamic> _$NewsArticleToJson(NewsArticle instance) =>
@@ -45,8 +45,8 @@ Map<String, dynamic> _$NewsArticleToJson(NewsArticle instance) =>
     };
 
 Source _$SourceFromJson(Map<String, dynamic> json) => Source(
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
     );
 
 Map<String, dynamic> _$SourceToJson(Source instance) => <String, dynamic>{

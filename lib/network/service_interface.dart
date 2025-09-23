@@ -5,5 +5,6 @@ import 'package:chopper/chopper.dart';
 typedef NewsResponse = Response<Result<QueryResult>>;
 
 abstract class ServiceInterface {
-  Future<NewsResponse> queryNews({String? q});
+  Future<NewsResponse> queryNews({String? q, String? sources, String? domains});
+  Future<NewsResponse> queryLatestNews({String? country});
 }

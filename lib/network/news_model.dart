@@ -23,13 +23,13 @@ class NewsResult {
 
 @JsonSerializable()
 class NewsArticle {
-  String author;
-  String title;
-  String description;
-  String url;
-  String urlToImage;
-  String publishedAt;
-  String content;
+  String? author;
+  String? title;
+  String? description;
+  String? url;
+  String? urlToImage;
+  String? publishedAt;
+  String? content;
 
   Source source;
 
@@ -52,8 +52,8 @@ class NewsArticle {
 
 @JsonSerializable()
 class Source {
-  String id;
-  String name;
+  String? id;
+  String? name;
 
   Source({required this.id, required this.name});
 
@@ -62,24 +62,24 @@ class Source {
   Map<String, dynamic> toJson() => _$SourceToJson(this);
 }
 
-List<Article> NewsAPiArticleToArticle(NewsResult result) {
+List<Article> newsAPiArticleToArticle(NewsResult result) {
   List<Article> articles = [];
 
   for (final result in result.articles) {
-    articles.add(NewArticleToArticle(result));
+    articles.add(newArticleToArticle(result));
   }
   return articles;
 }
 
-Article NewArticleToArticle(NewsArticle article) {
+Article newArticleToArticle(NewsArticle article) {
   return Article(
-    author: article.author,
-    content: article.content,
-    description: article.description,
-    publishedAt: article.publishedAt,
-    source: article.source.name,
-    title: article.title,
-    url: article.url,
-    urlToImage: article.urlToImage,
+    author: article.author ?? "",
+    content: article.content ?? "",
+    description: article.description ?? "",
+    publishedAt: article.publishedAt ?? "",
+    source: article.source.name ?? "",
+    title: article.title ?? "",
+    url: article.url ?? "",
+    urlToImage: article.urlToImage ?? "",
   );
 }

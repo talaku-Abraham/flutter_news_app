@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:chopper/chopper.dart';
 import 'package:news_app/network/model_response.dart';
@@ -42,19 +41,21 @@ class NewsConverter implements Converter {
 
     if (contentType != null && contentType.contains(jsonHeaders)) {
       body = utf8.decode(response.bodyBytes);
+      // print(body);
     }
 
     try {
       final mapData = jsonDecode(body) as Map<String, dynamic>;
+
       final newsResults = NewsResult.fromJson(mapData);
+
       final articles = newsAPiArticleToArticle(newsResults);
       final results = QueryResult(
         totalResults: newsResults.totalResults,
         articles: articles,
       );
-      return response.copyWith<BodyType>(
-        body: Success(results.copyWith(articles: articles)) as BodyType,
-      );
+
+      return response.copyWith<BodyType>(body: Success(results) as BodyType);
     } catch (e) {
       chopperLogger.warning(e);
       final error = Error<InnerType>(Exception(e.toString()));
