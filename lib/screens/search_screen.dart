@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:news_app/provider.dart';
+import 'package:news_app/providers/service_provider.dart';
 
 class SearchScreen extends ConsumerWidget {
   SearchScreen({super.key});
