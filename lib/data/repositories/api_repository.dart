@@ -4,7 +4,7 @@ import 'package:news_app/data/repositories/repository.dart';
 import 'package:news_app/network/model_response.dart';
 import 'package:news_app/network/query_result.dart';
 import 'package:news_app/network/service_interface.dart';
-import 'package:news_app/provider.dart';
+import 'package:news_app/providers/service_provider.dart';
 
 class ApiRepository extends Notifier<AsyncValue<CurrentNews>>
     implements Repository {
@@ -39,7 +39,7 @@ class ApiRepository extends Notifier<AsyncValue<CurrentNews>>
           // CurrentNews(articles: result.value.articles)
         );
       } else if (result is Error<QueryResult>) {
-        state = AsyncValue.error(result!.exception, StackTrace.current);
+        state = AsyncValue.error(result.exception, StackTrace.current);
       } else if (result == null && response.error != null) {
         // response.body is null but response.error exists
         state = AsyncValue.error(response.error!, StackTrace.current);

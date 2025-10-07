@@ -11,4 +11,3 @@ final repositoryProvider =
     NotifierProvider<ApiRepository, AsyncValue<CurrentNews>>(
       () => ApiRepository(),
     );
-
