@@ -26,7 +26,10 @@ class UserDao {
 
   Future<String?> signUp(String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
       return null;
     } on FirebaseException catch (e) {
@@ -49,7 +52,6 @@ class UserDao {
 
   Future<String?> login(String email, String password) async {
     try {
-      print('inside log in function');
       await _auth.signInWithEmailAndPassword(email: email, password: password);
 
       return null;
