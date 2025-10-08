@@ -8,9 +8,11 @@ String? appRedirect(Ref ref, BuildContext context, GoRouterState state) {
 
   final loggingIn = state.matchedLocation == '/login';
 
+  final goingTosignup = state.matchedLocation == '/signup';
+
   if (isUserLogged && loggingIn) return '/home';
 
-  if (!loggingIn) return '/login';
+  if (!loggingIn && !isUserLogged && !goingTosignup) return '/login';
 
   return null;
 }
