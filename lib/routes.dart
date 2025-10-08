@@ -4,6 +4,7 @@ import 'package:news_app/screens/detail_screen.dart';
 import 'package:news_app/screens/home_screen.dart';
 import 'package:news_app/screens/login_screen.dart';
 import 'package:news_app/screens/search_screen.dart';
+import 'package:news_app/screens/signup_page.dart';
 
 List<GoRoute> appRoutes = [
   GoRoute(
@@ -22,4 +23,5 @@ List<GoRoute> appRoutes = [
     ],
   ),
   GoRoute(path: '/login', builder: (context, state) => LogInScreen()),
+  GoRoute(path: '/signup', builder: (context, state) => SignupScreen()),
 ];
