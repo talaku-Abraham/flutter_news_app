@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -48,6 +49,7 @@ class UserDao {
 
   Future<String?> login(String email, String password) async {
     try {
+      print('inside log in function');
       await _auth.signInWithEmailAndPassword(email: email, password: password);
 
       return null;
@@ -70,5 +72,9 @@ class UserDao {
       log(e.toString());
       return e.toString();
     }
+  }
+
+  FutureOr<void> logOut() async {
+    await _auth.signOut();
   }
 }
