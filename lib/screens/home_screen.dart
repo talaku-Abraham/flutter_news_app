@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:news_app/providers/firebase_provider.dart';
 
 import 'package:news_app/providers/service_provider.dart';
 import 'package:news_app/widgets/news_card.dart';
+import 'package:news_app/widgets/news_preview_card.dart';
+import 'package:news_app/widgets/top_story.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -16,8 +19,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      ref.read(repositoryProvider.notifier).fetchEverything();
-      ref.read(repositoryProvider.notifier).fetchLatestNews();
+      // ref.read(repositoryProvider.notifier).fetchEverything();
+      // ref.read(repositoryProvider.notifier).fetchLatestNews();
     });
   }
 
@@ -151,6 +154,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     // final state = ref.watch(repositoryProvider);
 
-    return Scaffold(body: _buildCustomScrollView());
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              ref.read(userDaoProvider).logOut();
+            },
+            icon: Icon(Icons.login_outlined),
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            TopStory(),
+            SizedBox(
+              height: 400,
+              child: ListView.builder(
+                itemBuilder: (context, index) => NewsPreviewCard(),
+                itemCount: 10,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

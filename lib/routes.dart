@@ -14,9 +14,11 @@ List<GoRoute> appRoutes = [
       GoRoute(
         path: '/detail',
         builder: (context, state) {
-          final article = state.extra as Article;
+          // final article = state.extra as Article;
 
-          return DetailScreen(article: article);
+          return DetailScreen(
+            // article: article
+          );
         },
       ),
       GoRoute(path: '/search', builder: (context, state) => SearchScreen()),

@@ -75,7 +75,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         _emailController.text,
                         _passwordController.text,
                       );
-                      print('creating user');
+
                       result.then((value) => print(value.toString()));
                     }
                   },
