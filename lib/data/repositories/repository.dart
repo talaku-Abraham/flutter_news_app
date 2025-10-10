@@ -1,5 +1,11 @@
-abstract class Repository {
-  void fetchEverything({String? q, String? sources, String? domains});
+import 'package:news_app/data/model/article.dart';
 
-  void fetchLatestNews({String? country});
+abstract class Repository {
+  Future<List<Article>> fetchEverything({
+    String? q,
+    String? sources,
+    String? domains,
+  });
+
+  Future<List<Article>> fetchLatestNews({String? country});
 }
