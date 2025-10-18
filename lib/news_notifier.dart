@@ -21,9 +21,9 @@ class NewsNotifier extends Notifier<AsyncValue<List<Article>>> {
 
     try {
       final articles = await _repo.fetchEverything(
-        q: q,
-        domains: domain,
-        sources: source,
+        // q: q,
+        // domains: domain,
+        // sources: source,
       );
 
       state = AsyncValue.data(articles);

@@ -3,7 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:news_app/components/build_image.dart';
+import 'package:news_app/components/build_social_signin_button.dart';
+import 'package:news_app/components/build_text_form_field.dart';
 import 'package:news_app/providers/firebase_provider.dart';
+import 'package:news_app/widgets/custom_button.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -31,70 +35,67 @@ class _LogInScreenState extends State<LogInScreen> {
     final container = ProviderScope.containerOf(context);
     final userDao = container.read(userDaoProvider);
 
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('LogIn'),
-            TextFormField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                hintText: 'email',
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.all(8),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              LoginImage(
+                height: size.height * 0.4,
+                imageUrl: 'assets/images/logo.jpg',
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Enter email address';
-                }
-                return null;
-              },
-            ),
+              SizedBox(height: size.height * 0.05),
 
-            SizedBox(height: 20),
+              BuildTextFormField(
+                controller: _emailController,
+                hintText: 'Email Address',
+              ),
+              SizedBox(height: size.height * 0.01),
 
-            TextFormField(
-              obscureText: true,
-              controller: _passwordController,
-              decoration: InputDecoration(
+              // SizedBox(height: size.height * 0.01),
+              BuildTextFormField(
+                controller: _passwordController,
                 hintText: 'password',
-                border: OutlineInputBorder(),
+                obscureText: true,
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Enter a password';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      final result = userDao.login(
-                        _emailController.text,
-                        _passwordController.text,
-                      );
-                    }
-                  },
-                  child: Text('LogIn'),
-                ),
-                SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    print('clicked');
-                    GoRouter.of(context).go("/signup");
-                  },
-                  child: Text('Sign Up'),
-                ),
-              ],
-            ),
-          ],
+
+              CustomButton(
+                label: 'Login',
+                onTab: () async {
+                  await userDao.login(
+                    _emailController.text,
+                    _passwordController.text,
+                  );
+                },
+              ),
+              SizedBox(height: size.height * 0.05),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  BuildSocialSigninbutton(
+                    height: size.width * 0.05,
+                    imageUrl: 'assets/images/google.png',
+                    onTap: () {},
+                  ),
+                  BuildSocialSigninbutton(
+                    height: size.width * 0.05,
+                    imageUrl: 'assets/images/facebook.png',
+                    onTap: () {},
+                  ),
+                  BuildSocialSigninbutton(
+                    height: size.width * 0.05,
+                    imageUrl: 'assets/images/twitter.png',
+                    onTap: () => context.go('/signup'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

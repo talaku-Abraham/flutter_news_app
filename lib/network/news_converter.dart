@@ -9,6 +9,7 @@ import 'package:news_app/network/query_result.dart';
 class NewsConverter implements Converter {
   @override
   FutureOr<Request> convertRequest(Request request) {
+    print('working ');
     final req = applyHeader(
       request,
       contentTypeKey,
@@ -18,19 +19,20 @@ class NewsConverter implements Converter {
     return encodeJson(req);
   }
 
-  @override
-  FutureOr<Response<BodyType>> convertResponse<BodyType, InnerType>(
-    Response response,
-  ) {
-    return decodeJson<BodyType, InnerType>(response);
-  }
-
   FutureOr<Request> encodeJson(Request request) {
     final contentType = request.headers[contentTypeKey];
     if (contentType != null && contentType.contains(jsonHeaders)) {
       return request.copyWith(body: jsonEncode(request.body));
     }
     return request;
+  }
+
+  @override
+  FutureOr<Response<BodyType>> convertResponse<BodyType, InnerType>(
+    Response response,
+  ) {
+    print('inside service converter');
+    return decodeJson<BodyType, InnerType>(response);
   }
 
   FutureOr<Response<BodyType>> decodeJson<BodyType, InnerType>(
@@ -54,6 +56,8 @@ class NewsConverter implements Converter {
         totalResults: newsResults.totalResults,
         articles: articles,
       );
+
+      print('the result is $results');
 
       return response.copyWith<BodyType>(body: Success(results) as BodyType);
     } catch (e) {

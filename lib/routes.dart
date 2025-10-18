@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:news_app/data/model/article.dart';
 import 'package:news_app/screens/detail_screen.dart';
 import 'package:news_app/screens/home_screen.dart';
+import 'package:news_app/screens/latest_news_screen.dart';
 import 'package:news_app/screens/login_screen.dart';
 import 'package:news_app/screens/search_screen.dart';
 import 'package:news_app/screens/signup_page.dart';
@@ -14,16 +15,22 @@ List<GoRoute> appRoutes = [
       GoRoute(
         path: '/detail',
         builder: (context, state) {
-          // final article = state.extra as Article;
+          final article = state.extra as Article;
 
-          return DetailScreen(
-            // article: article
-          );
+          return DetailScreen(article: article);
         },
       ),
       GoRoute(path: '/search', builder: (context, state) => SearchScreen()),
+
+      GoRoute(
+        path: '/latest',
+        builder: (context, state) {
+          return LatestNewsScreen();
+        },
+      ),
     ],
   ),
+
   GoRoute(path: '/login', builder: (context, state) => LogInScreen()),
   GoRoute(path: '/signup', builder: (context, state) => SignupScreen()),
 ];

@@ -24,26 +24,27 @@ class SearchScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: state.when(
-        data: (news) {
-          if (news.latestArticles.isEmpty) {
-            return Text("list empty");
-          }
-          final firstNews = news.latestArticles.first;
-          return Column(
-            children: [
-              Text(firstNews.title),
-              TextButton(onPressed: () {}, child: Text('seemore')),
-            ],
-          );
-        },
-        error: (error, stackTrace) => Text(error.toString()),
-        loading: () => CircularProgressIndicator(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed:
-            () => ref.read(repositoryProvider.notifier).fetchLatestNews(),
-      ),
+      // body:
+      // state.when(
+      //   data: (news) {
+      //     if (news.latestArticles.isEmpty) {
+      //       return Text("list empty");
+      //     }
+      //     final firstNews = news.latestArticles.first;
+      //     return Column(
+      //       children: [
+      //         Text(firstNews.title),
+      //         TextButton(onPressed: () {}, child: Text('seemore')),
+      //       ],
+      //     );
+      //   },
+      //   error: (error, stackTrace) => Text(error.toString()),
+      //   loading: () => CircularProgressIndicator(),
+      // ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed:
+      //       () => ref.read(repositoryProvider.notifier).fetchLatestNews(),
+      // ),
     );
   }
 }

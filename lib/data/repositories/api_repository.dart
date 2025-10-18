@@ -23,8 +23,6 @@ class ApiRepository implements Repository {
 
     final result = res.body;
 
-    print(result);
-
     if (result is Success<QueryResult>) {
       return result.value.articles;
     } else if (result is Error<QueryResult>) {
@@ -36,7 +34,7 @@ class ApiRepository implements Repository {
 
   @override
   Future<List<Article>> fetchLatestNews({String? country}) async {
-    final res = await _service.queryLatestNews(country: country);
+    final res = await _service.queryLatestNews(country: country ?? 'us');
 
     final result = res.body;
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:news_app/providers/firebase_provider.dart';
 
 import 'package:news_app/providers/service_provider.dart';
 import 'package:news_app/widgets/news_preview_card.dart';
@@ -35,157 +34,133 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   //   );
   // }
 
-  // Widget _buildTreadingSection() {
-  //   return Padding(
-  //     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       children: [
-  //         Text("Treading", style: TextStyle(fontWeight: FontWeight.bold)),
+  SliverToBoxAdapter _buildNews() {
+    final newsState = ref.watch(newsNotifierProvider);
 
-  //         TextButton(onPressed: () {}, child: Text("See all")),
-  //       ],
-  //     ),
-  //   );
-  // }
+    return SliverToBoxAdapter(
+      child: newsState.when(
+        data:
+            (news) => ListView.builder(
+              shrinkWrap: true,
+              itemBuilder:
+                  (context, index) => NewsPreviewCard(article: news[index]),
+              itemCount: newsState.value!.length,
+            ),
+        error: (error, stackTrace) => Center(child: Text(error.toString())),
+        loading: () => Center(child: CircularProgressIndicator()),
+      ),
+    );
+  }
 
-  // Widget _buildLatestNews(String imageUrl, String description, String title) {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(8.0),
-  //     child: Row(
-  //       children: [
-  //         SizedBox(
-  //           width: 100,
-  //           height: 50,
-  //           child: _buildImage(imageUrl: imageUrl),
-  //         ),
+  SliverAppBar _buildSiliverAppbar() {
+    final latestNews = ref.watch(latestNewsNotifierProvider);
 
-  //         // Expanded(child: NewsCard(description: description, title: title)),
-  //       ],
-  //     ),
-  //   );
-  // }
+    return SliverAppBar(
+      pinned: false,
+      floating: true,
+      snap: true,
+      expandedHeight: 500,
+      flexibleSpace: FlexibleSpaceBar(
+        centerTitle: true,
+        background: latestNews.when(
+          data:
+              (articles) => Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Latest News",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  TopStory(article: articles.first),
+                ],
+              ),
+          error: (error, stackTrace) => Text(error.toString()),
+          loading: () => Center(child: CircularProgressIndicator()),
+        ),
+      ),
+    );
+  }
 
-  // Widget _buildImage({required String imageUrl}) {
-  //   return ClipRRect(
-  //     borderRadius: BorderRadius.circular(10),
-  //     child: Image.network(imageUrl, fit: BoxFit.cover),
-  //   );
-  // }
+  CustomScrollView _buildCustomScrollView() {
+    return CustomScrollView(slivers: [_buildSiliverAppbar(), _buildNews()]);
+  }
 
-  // CustomScrollView _buildCustomScrollView() {
-  //   return CustomScrollView(
-  //     slivers: [
-  //       _buildSliverAppBar(),
-  //       _buildTreadingSections(),
-  //       _buildLatestNewsSection(
-  //         "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //         "dfdf",
-  //         "dfndsnfdsf",
-  //       ),
-
-  //       SliverList(
-  //         delegate: SliverChildBuilderDelegate(
-  //           (context, index) => _buildLatestNews(
-  //             "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //             "dfdfakdfdsfdf dfnoasdn",
-  //             "This is the title i want to display ladies and gentlemens ",
-  //           ),
-  //           childCount: 20,
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  // Widget _buildImageCard(String imageUrl) {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       SizedBox(
-  //         height: 150,
-  //         width: double.infinity,
-  //         child: _buildImage(imageUrl: imageUrl),
-  //       ),
-
-  //       // NewsCard(
-  //       //   description: "description",
-  //       //   title: "this is a pic of a gfnsda taking a picture",
-  //       // ),
-  //     ],
-  //   );
-  // }
-
-  // SliverToBoxAdapter _buildTreadingSections() {
-  //   return SliverToBoxAdapter(child: _buildTreadingSection());
-  // }
-
-  // SliverToBoxAdapter _buildLatestNewsSection(
-  //   String imageUrl,
-  //   String description,
-  //   String title,
-  // ) {
-  //   return SliverToBoxAdapter(child: _buildImageCard(imageUrl));
-  // }
-
-  // SliverAppBar _buildSliverAppBar() {
-  //   return SliverAppBar(
-  //     pinned: true,
-  //     expandedHeight: 100,
-
-  //     flexibleSpace: FlexibleSpaceBar(
-  //       centerTitle: true,
-  //       background: Center(child: _buildSearchBar()),
-  //     ),
-  //   );
-  // }
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
       ref.read(newsNotifierProvider.notifier).fetchEverything();
-      // ref.read(repositoryProvider.notifier).fetchLatestNews();
+      ref.read(latestNewsNotifierProvider.notifier).fetchLatestNews();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(newsNotifierProvider);
-
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              ref.read(userDaoProvider).logOut();
-            },
-            icon: Icon(Icons.login_outlined),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            TopStory(),
-            SizedBox(
-              height: 400,
-              child: state.when(
-                data:
-                    (data) => ListView.builder(
-                      itemBuilder:
-                          (context, index) =>
-                              NewsPreviewCard(article: state.value![index]),
-                      itemCount: state.value!.length,
-                    ),
-                error:
-                    (error, stackTrace) =>
-                        Center(child: Text(error.toString())),
-                loading: () => CircularProgressIndicator(),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return Scaffold(body: SafeArea(child: _buildCustomScrollView()));
+    //  Scaffold(
+    //   appBar: AppBar(
+    //     actions: [
+    //       IconButton(
+    //         onPressed: () {
+    //           ref.read(userDaoProvider).logOut();
+    //         },
+    //         icon: Icon(Icons.login_outlined),
+    //       ),
+    //       Padding(
+    //         padding: const EdgeInsets.all(8.0),
+    //         child: Row(
+    //           children: [
+    //             Icon(Icons.search),
+    //             SizedBox(
+    //               width: 100,
+    //               height: 30,
+    //               child: TextFormField(
+    //                 decoration: InputDecoration(border: OutlineInputBorder()),
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    //   body: SafeArea(
+    //     child: Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         Text(
+    //           "Latest",
+    //           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    //         ),
+    //         latestNewsState.when(
+    //           data: (data) => TopStory(article: latestNewsState.value!.first),
+    //           error:
+    //               (error, stackTrace) => Center(child: Text(error.toString())),
+    //           loading: () => Center(child: CircularProgressIndicator()),
+    //         ),
+    //         Text(
+    //           "Hot News",
+    //           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    //         ),
+    //         SizedBox(
+    //           height: 400,
+    //           child: newsState.when(
+    //             data:
+    //                 (data) => ListView.builder(
+    //                   itemBuilder:
+    //                       (context, index) =>
+    //                           NewsPreviewCard(article: newsState.value![index]),
+    //                   itemCount: newsState.value!.length,
+    //                 ),
+    //             error:
+    //                 (error, stackTrace) =>
+    //                     Center(child: Text(error.toString())),
+    //             loading: () => Center(child: CircularProgressIndicator()),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }
