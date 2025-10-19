@@ -4,6 +4,7 @@ import 'package:news_app/constants.dart';
 import 'package:news_app/data/model/article.dart';
 import 'package:news_app/widgets/build_image.dart';
 import 'package:news_app/widgets/custom_button.dart';
+import 'package:news_app/widgets/icon_with_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 String formatTimeStamp(String isoDateString) {
@@ -50,22 +51,25 @@ class DetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              BuildImage(imageUrl: article.urlToImage),
+              Expanded(child: BuildImage(imageUrl: article.urlToImage)),
               SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(formatTimeStamp(article.publishedAt)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(formatTimeStamp(article.publishedAt)),
+                        IconWithText(icon: Icons.public, title: article.source),
+                      ],
+                    ),
                     SizedBox(height: 16),
                     Text(
                       article.title,
                       // "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                      ),
+                      style: Theme.of(context).textTheme.headlineLarge,
                     ),
                     SizedBox(height: 20),
                     Text(
@@ -73,6 +77,7 @@ class DetailScreen extends StatelessWidget {
                       article.description,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 15,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     SizedBox(height: 20),
                     CustomButton(

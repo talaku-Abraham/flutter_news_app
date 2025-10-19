@@ -19,30 +19,27 @@ class TopStory extends StatelessWidget {
       child: GestureDetector(
         onTap: () => context.go('/home/detail', extra: article),
         child: Card(
+          color: Theme.of(context).colorScheme.surface,
           elevation: 6,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(kBorderRadius),
           ),
           margin: EdgeInsets.all(kMargin),
           child: Padding(
-            padding: const EdgeInsets.all(kPadding),
+            padding: const EdgeInsets.all(5),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 BuildImage(imageUrl: article.urlToImage),
-                _buildTitle(article.title),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: kPadding,
-                    right: kPadding,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconWithText(icon: Icons.public, title: 'BBC'),
-                      SizedBox(width: 5),
-                      IconWithText(title: '14 mins', icon: Icons.access_time),
-                    ],
-                  ),
+                _buildTitle(article.title, context),
+                // SizedBox(height: kPadding),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconWithText(icon: Icons.public, title: article.source),
+                    SizedBox(width: 5),
+                    IconWithText(title: '14 mins', icon: Icons.access_time),
+                  ],
                 ),
                 Align(
                   alignment: AlignmentGeometry.bottomRight,
@@ -67,14 +64,14 @@ class TopStory extends StatelessWidget {
     );
   }
 
-  Widget _buildTitle(String title) {
+  Widget _buildTitle(String title, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
         title,
         overflow: TextOverflow.ellipsis,
         maxLines: 2,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        style: Theme.of(context).textTheme.headlineMedium,
       ),
     );
   }

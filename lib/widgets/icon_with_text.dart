@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:news_app/constants.dart';
 
 class IconWithText extends StatelessWidget {
@@ -13,7 +13,7 @@ class IconWithText extends StatelessWidget {
       children: [
         Icon(icon, size: kIconSize),
         SizedBox(width: 2),
-        Text(title, style: TextStyle(fontSize: 12)),
+        Text(title, selectionColor: Theme.of(context).colorScheme.onSurface),
       ],
     );
     ;

@@ -44,9 +44,11 @@ class NewsPreviewCard extends StatelessWidget {
                           article.title,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
+                          style: Theme.of(context).textTheme.headlineMedium,
                         ),
+                        SizedBox(height: 10),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconWithText(
                               icon: Icons.public,

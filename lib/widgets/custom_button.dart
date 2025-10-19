@@ -12,15 +12,16 @@ class CustomButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: kPadding),
       child: TextButton(
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all(
-            const Color.fromARGB(255, 211, 231, 229),
-          ),
-          shape: WidgetStateProperty.all(LinearBorder()),
-          padding: WidgetStateProperty.all(EdgeInsets.all(kPadding)),
-        ),
+        style: Theme.of(context).outlinedButtonTheme.style,
+        //  ButtonStyle(
+        //   backgroundColor: WidgetStateProperty.all(
+        //     const Color.fromARGB(255, 211, 231, 229),
+        //   ),
+        //   shape: WidgetStateProperty.all(LinearBorder()),
+        //   padding: WidgetStateProperty.all(EdgeInsets.all(kPadding)),
+        // ),
         onPressed: onTab,
-        child: Text(label, style: TextStyle(fontSize: 16, color: Colors.black)),
+        child: Text(label, style: TextStyle(fontSize: 20, color: Colors.black)),
       ),
     );
   }

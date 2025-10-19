@@ -32,8 +32,37 @@ class MyApp extends ConsumerWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+        textTheme: ThemeData.light().textTheme
+            .apply(
+              bodyColor: Colors.deepOrange.shade900,
+              displayColor: Colors.deepOrange.shade800,
+            )
+            .copyWith(
+              headlineLarge: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+                fontWeight: FontWeight.bold,
+              ),
+              bodyLarge: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+              headlineMedium: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          elevation: 4,
+          centerTitle: true,
+        ),
+        scaffoldBackgroundColor: Theme.of(context).colorScheme.surface,
+
+        useMaterial3: true,
       ),
+
       routerConfig: router,
     );
   }

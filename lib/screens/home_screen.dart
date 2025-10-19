@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:news_app/providers/firebase_provider.dart';
 
 import 'package:news_app/providers/service_provider.dart';
 import 'package:news_app/widgets/news_preview_card.dart';
@@ -70,7 +71,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 children: [
                   Text(
                     "Latest News",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                   TopStory(article: articles.first),
                 ],
@@ -83,7 +84,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   CustomScrollView _buildCustomScrollView() {
-    return CustomScrollView(slivers: [_buildSiliverAppbar(), _buildNews()]);
+    return CustomScrollView(
+      slivers: [
+        _buildSiliverAppbar(),
+        SliverToBoxAdapter(
+          child: Container(
+            // width: 100,
+            // height: 100,
+            // color: Colors.red,
+            child: Row(
+              children: [Text('Hot News', style: TextStyle(fontSize: 25))],
+            ),
+          ),
+        ),
+        _buildNews(),
+      ],
+    );
   }
 
   @override
@@ -97,7 +113,70 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SafeArea(child: _buildCustomScrollView()));
+    final latestNews = ref.watch(latestNewsNotifierProvider);
+    final newsState = ref.watch(newsNotifierProvider);
+
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      drawer: Drawer(),
+      appBar: AppBar(
+        // backgroundColor: Theme.of(context).highlightColor,
+        actions: [
+          IconButton(
+            onPressed: () {
+              ref.read(userDaoProvider).logOut();
+            },
+            icon: Icon(Icons.login_outlined),
+          ),
+        ],
+        title: Text("Home"),
+      ),
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            latestNews.when(
+              data:
+                  (articles) => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Latest News",
+                        style: Theme.of(context).textTheme.headlineLarge,
+                      ),
+                      TopStory(article: articles.first),
+                    ],
+                  ),
+              error: (error, stackTrace) => Text(error.toString()),
+              loading: () => Center(child: CircularProgressIndicator()),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Jump Right in",
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+            ),
+            newsState.when(
+              data:
+                  (news) => Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemBuilder:
+                          (context, index) =>
+                              NewsPreviewCard(article: news[index]),
+                      itemCount: newsState.value!.length,
+                    ),
+                  ),
+              error:
+                  (error, stackTrace) => Center(child: Text(error.toString())),
+              loading: () => Center(child: CircularProgressIndicator()),
+            ),
+          ],
+        ),
+      ), // SafeArea(child: _buildCustomScrollView()),
+    );
     //  Scaffold(
     //   appBar: AppBar(
     //     actions: [
