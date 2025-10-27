@@ -15,43 +15,45 @@ class ApiRepository implements Repository {
     String? sources,
     String? domains,
   }) async {
-    final res = await _service.topHeadlines(
+    final res = await _service.queryEverything(
       q: q ?? 'bitcoin',
       domains: domains,
       sources: sources,
     );
 
+    return returnListofArticles(res);
+  }
+
+  @override
+  Future<List<Article>> fetchLatestNews({String? country}) async {
+    final res = await _service.topHeadlines(country: country ?? 'us');
+
+    return returnListofArticles(res);
+  }
+
+  @override
+  Future<List<Article>> fatchByCategory({String category = 'sports'}) async {
+    final res = await _service.topHeadlines(category: category);
+
+    return returnListofArticles(res);
+  }
+
+  List<Article> returnListofArticles(NewsResponse res) {
     if (res.isSuccessful) {
       final result = res.body;
 
       if (result is Success<QueryResult>) {
         return result.value.articles;
       } else {
-        throw Exception("Unexpected Success response type");
+        throw Exception("Unexpected Success Response Type");
       }
     } else {
-      final err = res.error;
-
-      if (err is Error<QueryResult>) {
-        throw err.exception;
+      final error = res.error;
+      if (error is Error<QueryResult>) {
+        throw Exception(error.exception);
       } else {
         throw Exception("Unexpected error message");
       }
-    }
-  }
-
-  @override
-  Future<List<Article>> fetchLatestNews({String? country}) async {
-    final res = await _service.queryLatestNews(country: country ?? 'us');
-
-    final result = res.body;
-
-    if (result is Success<QueryResult>) {
-      return result.value.articles;
-    } else if (result is Error<QueryResult>) {
-      throw result.exception;
-    } else {
-      throw Exception('Unexpected Response');
     }
   }
 }

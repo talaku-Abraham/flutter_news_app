@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:news_app/custom_drawer.dart';
 import 'package:news_app/providers/firebase_provider.dart';
 
 import 'package:news_app/providers/service_provider.dart';
@@ -20,17 +21,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     Future.microtask(() {
       ref.read(newsNotifierProvider.notifier).fetchEverything();
       ref.read(latestNewsNotifierProvider.notifier).fetchLatestNews();
+      // ref
+      //     .read(newsNotifierByCategoryProvider.notifier)
+      //     .fetchNewsByCategory('sports');
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final latestNews = ref.watch(latestNewsNotifierProvider);
+    // final latestNews = ref.watch(newsNotifierByCategoryProvider);
     final newsState = ref.watch(newsNotifierProvider);
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      drawer: Drawer(),
+      drawer: CustomDrawer(),
       appBar: AppBar(
         // backgroundColor: Theme.of(context).highlightColor,
         actions: [
@@ -57,7 +62,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         "Latest News",
                         style: Theme.of(context).textTheme.headlineLarge,
                       ),
-                      TopStory(article: articles.first),
+                      TopStory(articles: articles),
                     ],
                   ),
               error: (error, stackTrace) => Text(error.toString()),

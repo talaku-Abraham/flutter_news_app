@@ -21,16 +21,21 @@ Request _addQuery(Request req) {
 abstract class NewsService extends ChopperService implements ServiceInterface {
   @override
   @Get(path: 'v2/everything')
-  Future<NewsResponse> topHeadlines({
+  Future<NewsResponse> queryEverything({
     @Query('q') String? q,
     @Query('sources') String? sources,
     @Query('domains') String? domains,
-    @Query('category') String? category,
   });
 
   @override
   @Get(path: 'v2/top-headlines')
-  Future<NewsResponse> queryLatestNews({@Query('country') String? country});
+  Future<NewsResponse> topHeadlines({
+    @Query('country') String? country,
+    @Query('category') String? category,
+    @Query('sources') String? sources,
+    @Query('pageSize') int? pageSize,
+    @Query('page') int? page,
+  });
 
   static NewsService create() {
     final client = ChopperClient(

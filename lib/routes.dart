@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:news_app/data/model/article.dart';
 import 'package:news_app/screens/detail_screen.dart';
@@ -25,7 +26,8 @@ List<GoRoute> appRoutes = [
       GoRoute(
         path: '/latest',
         builder: (context, state) {
-          return LatestNewsScreen();
+          final category = state.extra as String;
+          return LatestNewsScreen(category: category);
         },
       ),
     ],

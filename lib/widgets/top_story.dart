@@ -9,15 +9,15 @@ import 'package:news_app/widgets/custom_button.dart';
 import 'package:news_app/widgets/icon_with_text.dart';
 
 class TopStory extends StatelessWidget {
-  const TopStory({super.key, required this.article});
+  const TopStory({super.key, required this.articles});
 
-  final Article article;
+  final List<Article> articles;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: () => context.go('/home/detail', extra: article),
+        onTap: () => context.go('/home/detail', extra: articles),
         child: Card(
           color: Theme.of(context).colorScheme.surface,
           elevation: 6,
@@ -30,13 +30,16 @@ class TopStory extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                BuildImage(imageUrl: article.urlToImage),
-                _buildTitle(article.title, context),
+                BuildImage(imageUrl: articles.first.urlToImage),
+                _buildTitle(articles.first.title, context),
                 // SizedBox(height: kPadding),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconWithText(icon: Icons.public, title: article.source),
+                    IconWithText(
+                      icon: Icons.public,
+                      title: articles.first.source,
+                    ),
                     SizedBox(width: 5),
                     IconWithText(title: '14 mins', icon: Icons.access_time),
                   ],

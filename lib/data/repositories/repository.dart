@@ -8,4 +8,6 @@ abstract class Repository {
   });
 
   Future<List<Article>> fetchLatestNews({String? country});
+
+  Future<List<Article>> fatchByCategory({String category = 'sports'});
 }

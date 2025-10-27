@@ -40,7 +40,7 @@ void main() {
         error: null,
       );
       when(
-        mockService.topHeadlines(
+        mockService.queryEverything(
           q: anyNamed('q'),
           sources: anyNamed('sources'),
           domains: anyNamed('domains'),
@@ -66,7 +66,7 @@ void main() {
       );
 
       when(
-        mockService.topHeadlines(
+        mockService.queryEverything(
           q: anyNamed('q'),
           sources: anyNamed('sources'),
           domains: anyNamed('domains'),

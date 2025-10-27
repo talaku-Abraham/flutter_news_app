@@ -4,12 +4,26 @@ import 'package:chopper/chopper.dart';
 
 typedef NewsResponse = Response<Result<QueryResult>>;
 
+// sources endpoint result
+
+// "id": "aftenposten",
+//     "name": "Aftenposten",
+//     "description": "Norges ledende nettavis med alltid oppdaterte nyheter innenfor innenriks, utenriks, sport og kultur.",
+//     "url": "https://www.aftenposten.no",
+//     "category": "general",
+//     "language": "no",
+//     "country": "no"
 abstract class ServiceInterface {
-  Future<NewsResponse> topHeadlines({
+  Future<NewsResponse> queryEverything({
     String? q,
     String? sources,
     String? domains,
-    String? category,
   });
-  Future<NewsResponse> queryLatestNews({String? country});
+  Future<NewsResponse> topHeadlines({
+    String? country,
+    String? category,
+    String? sources,
+    int? pageSize,
+    int? page,
+  });
 }

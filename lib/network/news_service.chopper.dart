@@ -17,7 +17,7 @@ class _$NewsService extends NewsService {
   final definitionType = NewsService;
 
   @override
-  Future<Response<Result<QueryResult>>> topHeadlines({
+  Future<Response<Result<QueryResult>>> queryEverything({
     String? q,
     String? sources,
     String? domains,
@@ -38,9 +38,21 @@ class _$NewsService extends NewsService {
   }
 
   @override
-  Future<Response<Result<QueryResult>>> queryLatestNews({String? country}) {
+  Future<Response<Result<QueryResult>>> topHeadlines({
+    String? country,
+    String? category,
+    String? sources,
+    int? pageSize,
+    int? page,
+  }) {
     final Uri $url = Uri.parse('v2/top-headlines');
-    final Map<String, dynamic> $params = <String, dynamic>{'country': country};
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'country': country,
+      'category': category,
+      'sources': sources,
+      'pageSize': pageSize,
+      'page': page,
+    };
     final Request $request = Request(
       'GET',
       $url,

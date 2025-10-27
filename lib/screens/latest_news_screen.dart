@@ -4,13 +4,15 @@ import 'package:news_app/providers/service_provider.dart';
 import 'package:news_app/widgets/news_preview_card.dart';
 
 class LatestNewsScreen extends ConsumerWidget {
-  const LatestNewsScreen({super.key});
+  const LatestNewsScreen({super.key, required this.category});
 
+  final String category;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final articlesAsync = ref.watch(latestNewsNotifierProvider);
+    final articlesAsync = ref.watch(categoryNewsNotifierProvider(category));
+
     return Scaffold(
-      appBar: AppBar(title: Text('Latest News')),
+      appBar: AppBar(title: Text(category)),
       body: articlesAsync.when(
         data:
             (articles) => ListView.builder(
