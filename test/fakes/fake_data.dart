@@ -1,6 +1,6 @@
 import 'package:news_app/data/model/article.dart';
 
-final fakeArtices = [
+final fakeArticles = [
   Article(
     author: "Lucas Ropek",
     content: '''

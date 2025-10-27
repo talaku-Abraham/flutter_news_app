@@ -15,20 +15,28 @@ class ApiRepository implements Repository {
     String? sources,
     String? domains,
   }) async {
-    final res = await _service.queryNews(
+    final res = await _service.topHeadlines(
       q: q ?? 'bitcoin',
       domains: domains,
       sources: sources,
     );
 
-    final result = res.body;
+    if (res.isSuccessful) {
+      final result = res.body;
 
-    if (result is Success<QueryResult>) {
-      return result.value.articles;
-    } else if (result is Error<QueryResult>) {
-      throw result.exception;
+      if (result is Success<QueryResult>) {
+        return result.value.articles;
+      } else {
+        throw Exception("Unexpected Success response type");
+      }
     } else {
-      throw Exception('UnExpected response');
+      final err = res.error;
+
+      if (err is Error<QueryResult>) {
+        throw err.exception;
+      } else {
+        throw Exception("Unexpected error message");
+      }
     }
   }
 

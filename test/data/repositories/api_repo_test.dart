@@ -10,7 +10,7 @@ import 'package:news_app/network/model_response.dart';
 import 'package:news_app/network/query_result.dart';
 import 'package:news_app/network/service_interface.dart';
 
-import '../../fakes/fake_articles.dart';
+import '../../fakes/fake_data.dart';
 import 'api_repo_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<ServiceInterface>()])
@@ -22,26 +22,58 @@ void main() {
     mockService = MockServiceInterface();
     repository = ApiRepository(mockService);
   });
-  test("check the ApiRepository works", () async {
-    final fakeQueryResult = QueryResult(totalResults: 1, articles: fakeArtice);
 
-    final fakeResult = Success<QueryResult>(fakeQueryResult);
+  group("check the APiRepository works", () {
+    test("check fetchEverything return articles", () async {
+      final fakeQueryResult = QueryResult(
+        totalResults: 1,
+        articles: fakeArticles,
+      );
 
-    final base = http.Response('', 200);
+      final fakeResult = Success<QueryResult>(fakeQueryResult);
 
-    final fakeResponse = Response<Result<QueryResult>>(base, fakeResult);
-    when(
-      mockService.queryNews(
-        q: anyNamed('q'),
-        sources: anyNamed('sources'),
-        domains: anyNamed('domains'),
-      ),
-    ).thenAnswer((_) async => fakeResponse);
+      final base = http.Response('', 200);
 
-    final result = await repository.fetchEverything();
+      final fakeResponse = Response<Result<QueryResult>>(
+        base,
+        fakeResult,
+        error: null,
+      );
+      when(
+        mockService.topHeadlines(
+          q: anyNamed('q'),
+          sources: anyNamed('sources'),
+          domains: anyNamed('domains'),
+        ),
+      ).thenAnswer((_) async => fakeResponse);
 
-    expect(result, isA<List<Article>>());
-    expect(result.first.author, equals('Lucas Ropek'));
-    expect(result.length, 1);
+      final result = await repository.fetchEverything();
+
+      expect(result, isA<List<Article>>());
+      expect(result.first.author, equals('Lucas Ropek'));
+      expect(result.length, 1);
+    });
+
+    test('check fetchEverything handle errors', () async {
+      final fakeResult = Error<QueryResult>(Exception("error tale occured"));
+
+      final base = http.Response('Not found', 404);
+
+      final fakeResponse = Response<Result<QueryResult>>(
+        base,
+        null,
+        error: fakeResult,
+      );
+
+      when(
+        mockService.topHeadlines(
+          q: anyNamed('q'),
+          sources: anyNamed('sources'),
+          domains: anyNamed('domains'),
+        ),
+      ).thenAnswer((_) async => fakeResponse);
+
+      expect(() => repository.fetchEverything(), throwsA(isA<Exception>()));
+    });
   });
 }

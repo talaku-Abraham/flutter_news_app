@@ -26,13 +26,8 @@ import 'package:news_app/network/service_interface.dart' as _i3;
 
 class _FakeResponse_0<BodyType> extends _i1.SmartFake
     implements _i2.Response<BodyType> {
-  _FakeResponse_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeResponse_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [ServiceInterface].
@@ -40,79 +35,66 @@ class _FakeResponse_0<BodyType> extends _i1.SmartFake
 /// See the documentation for Mockito's code generation for more information.
 class MockServiceInterface extends _i1.Mock implements _i3.ServiceInterface {
   @override
-  _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>> queryNews({
+  _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>> topHeadlines({
     String? q,
     String? sources,
     String? domains,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #queryNews,
-          [],
-          {
-            #q: q,
-            #sources: sources,
-            #domains: domains,
-          },
-        ),
-        returnValue:
-            _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>>.value(
-                _FakeResponse_0<_i5.Result<_i6.QueryResult>>(
-          this,
-          Invocation.method(
-            #queryNews,
-            [],
-            {
+            Invocation.method(#queryNews, [], {
               #q: q,
               #sources: sources,
               #domains: domains,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>>.value(
-                _FakeResponse_0<_i5.Result<_i6.QueryResult>>(
-          this,
-          Invocation.method(
-            #queryNews,
-            [],
-            {
-              #q: q,
-              #sources: sources,
-              #domains: domains,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>>);
+            }),
+            returnValue:
+                _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>>.value(
+                  _FakeResponse_0<_i5.Result<_i6.QueryResult>>(
+                    this,
+                    Invocation.method(#queryNews, [], {
+                      #q: q,
+                      #sources: sources,
+                      #domains: domains,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>>.value(
+                  _FakeResponse_0<_i5.Result<_i6.QueryResult>>(
+                    this,
+                    Invocation.method(#queryNews, [], {
+                      #q: q,
+                      #sources: sources,
+                      #domains: domains,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>>);
 
   @override
-  _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>> queryLatestNews(
-          {String? country}) =>
+  _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>> queryLatestNews({
+    String? country,
+  }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #queryLatestNews,
-          [],
-          {#country: country},
-        ),
-        returnValue:
-            _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>>.value(
-                _FakeResponse_0<_i5.Result<_i6.QueryResult>>(
-          this,
-          Invocation.method(
-            #queryLatestNews,
-            [],
-            {#country: country},
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>>.value(
-                _FakeResponse_0<_i5.Result<_i6.QueryResult>>(
-          this,
-          Invocation.method(
-            #queryLatestNews,
-            [],
-            {#country: country},
-          ),
-        )),
-      ) as _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>>);
+            Invocation.method(#queryLatestNews, [], {#country: country}),
+            returnValue:
+                _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>>.value(
+                  _FakeResponse_0<_i5.Result<_i6.QueryResult>>(
+                    this,
+                    Invocation.method(#queryLatestNews, [], {
+                      #country: country,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>>.value(
+                  _FakeResponse_0<_i5.Result<_i6.QueryResult>>(
+                    this,
+                    Invocation.method(#queryLatestNews, [], {
+                      #country: country,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.Response<_i5.Result<_i6.QueryResult>>>);
 }

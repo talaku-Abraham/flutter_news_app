@@ -42,6 +42,15 @@ android {
     }
 }
 
+dependencies {
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))  // ← ADD THIS
+    implementation("com.google.firebase:firebase-auth")  // ← ADD THIS
+    
+    // Your existing dependencies...
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.20")
+    // ... other dependencies
+}
+
 flutter {
     source = "../.."
 }

@@ -66,7 +66,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
               CustomButton(
                 label: 'Login',
-                onTab: () async {
+                onTap: () async {
                   await userDao.login(
                     _emailController.text,
                     _passwordController.text,
@@ -80,7 +80,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   BuildSocialSigninbutton(
                     height: size.width * 0.05,
                     imageUrl: 'assets/images/google.png',
-                    onTap: () {},
+                    onTap: () => userDao.singInWithGoogle(),
                   ),
                   BuildSocialSigninbutton(
                     height: size.width * 0.05,

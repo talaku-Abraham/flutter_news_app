@@ -9,7 +9,6 @@ import 'package:news_app/network/query_result.dart';
 class NewsConverter implements Converter {
   @override
   FutureOr<Request> convertRequest(Request request) {
-    print('working ');
     final req = applyHeader(
       request,
       contentTypeKey,
@@ -31,7 +30,6 @@ class NewsConverter implements Converter {
   FutureOr<Response<BodyType>> convertResponse<BodyType, InnerType>(
     Response response,
   ) {
-    print('inside service converter');
     return decodeJson<BodyType, InnerType>(response);
   }
 
@@ -42,28 +40,35 @@ class NewsConverter implements Converter {
     var body = response.body;
 
     if (contentType != null && contentType.contains(jsonHeaders)) {
+      // return a string-- converts raw bytes to string
       body = utf8.decode(response.bodyBytes);
-      // print(body);
     }
-
     try {
-      final mapData = jsonDecode(body) as Map<String, dynamic>;
+      if (response.isSuccessful) {
+        final mapData = jsonDecode(body) as Map<String, dynamic>;
 
-      final newsResults = NewsResult.fromJson(mapData);
+        final newsResults = NewsResult.fromJson(mapData);
 
-      final articles = newsAPiArticleToArticle(newsResults);
-      final results = QueryResult(
-        totalResults: newsResults.totalResults,
-        articles: articles,
-      );
+        final articles = newsAPiArticleToArticle(newsResults);
+        final results = QueryResult(
+          totalResults: newsResults.totalResults,
+          articles: articles,
+        );
 
-      print('the result is $results');
+        return response.copyWith<BodyType>(body: Success(results) as BodyType);
+      } else {
+        final error = Error<InnerType>(
+          Exception(
+            'HTTP ${response.statusCode} : ${response.base.reasonPhrase}',
+          ),
+        );
 
-      return response.copyWith<BodyType>(body: Success(results) as BodyType);
+        return response.copyWith<BodyType>(body: null, bodyError: error);
+      }
     } catch (e) {
       chopperLogger.warning(e);
-      final error = Error<InnerType>(Exception(e.toString()));
-      return Response(response.base, null, error: error);
+      final error = Error<InnerType>(Exception('unknown Success Error'));
+      return response.copyWith<BodyType>(body: null, bodyError: error);
     }
   }
 }

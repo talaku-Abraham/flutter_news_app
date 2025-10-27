@@ -17,7 +17,7 @@ class _$NewsService extends NewsService {
   final definitionType = NewsService;
 
   @override
-  Future<Response<Result<QueryResult>>> queryNews({
+  Future<Response<Result<QueryResult>>> topHeadlines({
     String? q,
     String? sources,
     String? domains,

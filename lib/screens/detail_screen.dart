@@ -82,7 +82,7 @@ class DetailScreen extends StatelessWidget {
                     SizedBox(height: 20),
                     CustomButton(
                       label: 'Read More',
-                      onTab: () => openArticle(article.url),
+                      onTap: () => openArticle(article.url),
                     ),
                   ],
                 ),

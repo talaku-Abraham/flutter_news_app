@@ -81,7 +81,7 @@ class _SignupScreenState extends State<SignupScreen> {
               //     ),
               //   ),
               // ),
-              CustomButton(label: 'Sign Up', onTab: () {}),
+              CustomButton(label: 'Sign Up', onTap: () {}),
               SizedBox(height: size.height * 0.05),
               _buildSignInText(),
               SizedBox(height: size.height * 0.05),
@@ -157,7 +157,7 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
         CustomButton(
           label: 'Sign Up',
-          onTab: () {
+          onTap: () {
             if (_formKey.currentState!.validate()) {
               // final result = userDao.signUp(
               //   _emailController.text,

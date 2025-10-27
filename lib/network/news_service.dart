@@ -21,10 +21,11 @@ Request _addQuery(Request req) {
 abstract class NewsService extends ChopperService implements ServiceInterface {
   @override
   @Get(path: 'v2/everything')
-  Future<NewsResponse> queryNews({
+  Future<NewsResponse> topHeadlines({
     @Query('q') String? q,
     @Query('sources') String? sources,
     @Query('domains') String? domains,
+    @Query('category') String? category,
   });
 
   @override

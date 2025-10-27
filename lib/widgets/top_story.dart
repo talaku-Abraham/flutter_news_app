@@ -45,7 +45,7 @@ class TopStory extends StatelessWidget {
                   alignment: AlignmentGeometry.bottomRight,
                   child: CustomButton(
                     label: 'See More',
-                    onTab: () {
+                    onTap: () {
                       final container = ProviderScope.containerOf(context);
                       final articles =
                           container
