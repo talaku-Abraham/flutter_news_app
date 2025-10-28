@@ -37,10 +37,24 @@ class CustomDrawer extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.abc),
+            leading: Icon(Icons.movie),
             title: Text("Entertainment"),
             onTap: () {
               context.go('/home/latest', extra: 'entertainment');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.science),
+            title: Text("science"),
+            onTap: () {
+              context.go('/home/latest', extra: 'science');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.health_and_safety_outlined),
+            title: Text("health"),
+            onTap: () {
+              context.go('/home/latest', extra: 'health');
             },
           ),
         ],
