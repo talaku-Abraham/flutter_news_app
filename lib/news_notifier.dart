@@ -3,13 +3,13 @@ import 'package:news_app/data/model/article.dart';
 import 'package:news_app/data/repositories/api_repository.dart';
 import 'package:news_app/providers/service_provider.dart';
 
-class NewsNotifier extends Notifier<AsyncValue<List<Article>>> {
+class EveryNewsNotifier extends Notifier<AsyncValue<List<Article>>> {
   late final ApiRepository _repo;
 
   @override
   AsyncValue<List<Article>> build() {
     _repo = ref.watch(repositoryProvider);
-    return const AsyncValue.data([]);
+    return const AsyncValue.loading();
   }
 
   Future<void> fetchEverything({

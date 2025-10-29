@@ -1,4 +1,5 @@
 import 'package:news_app/data/model/article.dart';
+import 'package:news_app/data/model/source.dart';
 import 'package:news_app/data/repositories/repository.dart';
 import 'package:news_app/network/model_response.dart';
 import 'package:news_app/network/query_result.dart';
@@ -55,5 +56,29 @@ class ApiRepository implements Repository {
         throw Exception("Unexpected error message");
       }
     }
+  }
+
+  @override
+  Future<List<SourceOfNews>> fetchAllSourceOfNews() async {
+    final res = await _service.sources();
+
+    if (res.isSuccessful) {
+      final result = res.body;
+
+      if (result is Success<QuerySource>) {
+        // final List<SourceOfNews> a =
+        return result.value.sources;
+      } else {
+        throw Exception("Unexpected success Response");
+      }
+    } else {
+      throw Exception("Error is happening");
+    }
+  }
+
+  @override
+  Future<List<Article>> fetchAllNewsOfTheSource(String source) async {
+    final res = await _service.topHeadlines(sources: source);
+    return returnListofArticles(res);
   }
 }

@@ -61,4 +61,11 @@ class _$NewsService extends NewsService {
     );
     return client.send<Result<QueryResult>, QueryResult>($request);
   }
+
+  @override
+  Future<Response<Result<QuerySource>>> sources() {
+    final Uri $url = Uri.parse('/v2/top-headlines/sources');
+    final Request $request = Request('GET', $url, client.baseUrl);
+    return client.send<Result<QuerySource>, QuerySource>($request);
+  }
 }

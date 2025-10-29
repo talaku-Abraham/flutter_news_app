@@ -4,7 +4,7 @@ import 'package:news_app/network/model_response.dart';
 import 'package:news_app/network/news_converter.dart';
 import 'package:news_app/network/query_result.dart';
 import 'package:news_app/network/service_interface.dart';
-
+import 'package:news_app/data/model/source.dart';
 part 'news_service.chopper.dart';
 
 final String apikey = dotenv.env['apikey'] ?? '';
@@ -36,6 +36,10 @@ abstract class NewsService extends ChopperService implements ServiceInterface {
     @Query('pageSize') int? pageSize,
     @Query('page') int? page,
   });
+
+  @override
+  @Get(path: '/v2/top-headlines/sources')
+  Future<SourceResponse> sources();
 
   static NewsService create() {
     final client = ChopperClient(

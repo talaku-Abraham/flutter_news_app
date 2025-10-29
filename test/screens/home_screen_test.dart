@@ -18,7 +18,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            newsNotifierProvider.overrideWith(FakeNewsNotifier.new),
+            everyNewsNotifierProvider.overrideWith(FakeNewsNotifier.new),
             latestNewsNotifierProvider.overrideWith(FakeLatestNewsNotifier.new),
           ],
           child: MaterialApp(home: SingleChildScrollView(child: HomeScreen())),
@@ -46,7 +46,7 @@ class FakeLatestNewsNotifier extends LatestNewsNotifier {
   }
 }
 
-class FakeNewsNotifier extends NewsNotifier {
+class FakeNewsNotifier extends EveryNewsNotifier {
   @override
   AsyncValue<List<Article>> build() {
     return AsyncValue.data([]);

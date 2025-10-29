@@ -19,8 +19,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      ref.read(newsNotifierProvider.notifier).fetchEverything();
+      ref.read(everyNewsNotifierProvider.notifier).fetchEverything();
       ref.read(latestNewsNotifierProvider.notifier).fetchLatestNews();
+      // ref.read(sourcesNotifierProvider.notifier).getSources();
       // ref
       //     .read(newsNotifierByCategoryProvider.notifier)
       //     .fetchNewsByCategory('sports');
@@ -31,7 +32,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final latestNews = ref.watch(latestNewsNotifierProvider);
     // final latestNews = ref.watch(newsNotifierByCategoryProvider);
-    final newsState = ref.watch(newsNotifierProvider);
+    final newsState = ref.read(everyNewsNotifierProvider);
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,

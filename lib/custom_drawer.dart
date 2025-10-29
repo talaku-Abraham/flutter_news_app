@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:news_app/category_news_notifier.dart';
-import 'package:news_app/providers/service_provider.dart';
 
-class CustomDrawer extends ConsumerWidget {
+class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // ref
-    //     .watch(categoryNewsNotifierProvider.notifier)
-    //     .fetchNewsByCategory('sports');
-    // final refState = ref.watch(categoryNewsNotifierProvider);
-
+  Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         children: [
@@ -25,36 +17,45 @@ class CustomDrawer extends ConsumerWidget {
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text("Settings"),
-            onTap: () {},
+            title: Text("sources"),
+            onTap: () {
+              context.go('/home/source');
+            },
           ),
           // call
           ListTile(
             leading: Icon(Icons.sports),
             title: Text("Sports"),
             onTap: () {
-              context.go('/home/latest', extra: 'sports');
+              context.go('/home/category', extra: 'sports');
             },
           ),
           ListTile(
             leading: Icon(Icons.movie),
             title: Text("Entertainment"),
             onTap: () {
-              context.go('/home/latest', extra: 'entertainment');
+              context.go('/home/category', extra: 'entertainment');
             },
           ),
           ListTile(
             leading: Icon(Icons.science),
             title: Text("science"),
             onTap: () {
-              context.go('/home/latest', extra: 'science');
+              context.go('/home/category', extra: 'science');
             },
           ),
           ListTile(
             leading: Icon(Icons.health_and_safety_outlined),
             title: Text("health"),
             onTap: () {
-              context.go('/home/latest', extra: 'health');
+              context.go('/home/category', extra: 'health');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.health_and_safety_outlined),
+            title: Text("Technology"),
+            onTap: () {
+              context.go('/home/category', extra: 'technology');
             },
           ),
         ],

@@ -1,18 +1,12 @@
+import 'package:news_app/data/model/source.dart';
 import 'package:news_app/network/model_response.dart';
 import 'package:news_app/network/query_result.dart';
 import 'package:chopper/chopper.dart';
 
 typedef NewsResponse = Response<Result<QueryResult>>;
 
-// sources endpoint result
+typedef SourceResponse = Response<Result<QuerySource>>;
 
-// "id": "aftenposten",
-//     "name": "Aftenposten",
-//     "description": "Norges ledende nettavis med alltid oppdaterte nyheter innenfor innenriks, utenriks, sport og kultur.",
-//     "url": "https://www.aftenposten.no",
-//     "category": "general",
-//     "language": "no",
-//     "country": "no"
 abstract class ServiceInterface {
   Future<NewsResponse> queryEverything({
     String? q,
@@ -26,4 +20,6 @@ abstract class ServiceInterface {
     int? pageSize,
     int? page,
   });
+
+  Future<SourceResponse> sources();
 }
