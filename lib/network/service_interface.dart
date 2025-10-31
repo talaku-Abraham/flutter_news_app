@@ -12,6 +12,8 @@ abstract class ServiceInterface {
     String? q,
     String? sources,
     String? domains,
+    String? sortBy,
+    String? language,
   });
   Future<NewsResponse> topHeadlines({
     String? country,

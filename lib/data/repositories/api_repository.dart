@@ -11,29 +11,38 @@ class ApiRepository implements Repository {
   ApiRepository(this._service);
 
   @override
-  Future<List<Article>> fetchEverything({
+  Future<List<Article>> fetchNewsByQuery({
     String? q,
     String? sources,
     String? domains,
+    String? language,
+    String? sortBy,
   }) async {
-    final res = await _service.queryEverything(
-      q: q ?? 'bitcoin',
-      domains: domains,
-      sources: sources,
-    );
+    try {
+      final res = await _service.queryEverything(
+        q: q,
+        domains: domains,
+        sources: sources,
+        language: language,
+        sortBy: sortBy,
+      );
+
+      return returnListofArticles(res);
+    } catch (e) {
+      print(e.toString());
+      throw Exception('service problem: inside the API Repo');
+    }
+  }
+
+  @override
+  Future<List<Article>> fetchNewsByCountry({required String country}) async {
+    final res = await _service.topHeadlines(country: country);
 
     return returnListofArticles(res);
   }
 
   @override
-  Future<List<Article>> fetchLatestNews({String? country}) async {
-    final res = await _service.topHeadlines(country: country ?? 'us');
-
-    return returnListofArticles(res);
-  }
-
-  @override
-  Future<List<Article>> fatchByCategory({String category = 'sports'}) async {
+  Future<List<Article>> fetchNewsByCategory({String? category}) async {
     final res = await _service.topHeadlines(category: category);
 
     return returnListofArticles(res);
@@ -77,7 +86,7 @@ class ApiRepository implements Repository {
   }
 
   @override
-  Future<List<Article>> fetchAllNewsOfTheSource(String source) async {
+  Future<List<Article>> fetchNewsBySource({required String source}) async {
     final res = await _service.topHeadlines(sources: source);
     return returnListofArticles(res);
   }

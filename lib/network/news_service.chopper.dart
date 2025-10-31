@@ -21,12 +21,16 @@ class _$NewsService extends NewsService {
     String? q,
     String? sources,
     String? domains,
+    String? sortBy,
+    String? language,
   }) {
     final Uri $url = Uri.parse('v2/everything');
     final Map<String, dynamic> $params = <String, dynamic>{
       'q': q,
       'sources': sources,
       'domains': domains,
+      'sortBy': sortBy,
+      'language': language,
     };
     final Request $request = Request(
       'GET',
@@ -65,7 +69,11 @@ class _$NewsService extends NewsService {
   @override
   Future<Response<Result<QuerySource>>> sources() {
     final Uri $url = Uri.parse('/v2/top-headlines/sources');
-    final Request $request = Request('GET', $url, client.baseUrl);
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
     return client.send<Result<QuerySource>, QuerySource>($request);
   }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:news_app/data/model/source.dart';
 
-class CategoryScreen extends StatelessWidget {
-  const CategoryScreen({super.key, required this.sources});
+class SourcesScreen extends StatelessWidget {
+  const SourcesScreen({super.key, required this.sources});
 
   final List<SourceOfNews> sources;
 
@@ -27,10 +28,10 @@ class SourceItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // onTap: () => ,
+      onTap: () => context.go('/home/source/news', extra: source.id),
       child: ListTile(
         leading: Text(source.id),
-        title: Text(source.name),
+        title: Text(source.id),
         subtitle: Text(
           source.description,
           maxLines: 2,

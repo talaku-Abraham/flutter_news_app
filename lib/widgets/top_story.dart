@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:news_app/constants.dart';
 import 'package:news_app/data/model/article.dart';
-import 'package:news_app/providers/service_provider.dart';
 import 'package:news_app/widgets/build_image.dart';
 import 'package:news_app/widgets/custom_button.dart';
 import 'package:news_app/widgets/icon_with_text.dart';
@@ -17,7 +15,7 @@ class TopStory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: () => context.go('/home/detail', extra: articles),
+        onTap: () => context.go('/home/detail', extra: articles.first),
         child: Card(
           color: Theme.of(context).colorScheme.surface,
           elevation: 6,
@@ -49,13 +47,13 @@ class TopStory extends StatelessWidget {
                   child: CustomButton(
                     label: 'See More',
                     onTap: () {
-                      final container = ProviderScope.containerOf(context);
-                      final articles =
-                          container
-                              .read(latestNewsNotifierProvider.notifier)
-                              .fetchLatestNews();
+                      // final container = ProviderScope.containerOf(context);
+                      // final articles = container.read(
+                      //   newsByCategoryProvider(category: 'general'),
+                      // );
+                      //         .fetchLatestNews();
 
-                      context.go('/home/latest', extra: articles);
+                      context.go('/home/latest');
                     },
                   ),
                 ),

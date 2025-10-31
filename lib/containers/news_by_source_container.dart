@@ -3,18 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:news_app/providers/service_provider.dart';
 import 'package:news_app/screens/latest_news_screen.dart';
 
-class LatestNewsContainer extends ConsumerWidget {
-  const LatestNewsContainer({super.key});
+class NewsBySourceContainer extends ConsumerWidget {
+  const NewsBySourceContainer({super.key, required this.source});
+
+  final String source;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final latestNewsState = ref.read(
-      newsByCategoryProvider(category: 'general'),
-    );
-    return latestNewsState.when(
+    final newsStatus = ref.watch(newsBySourceProvider(source: source));
+
+    return newsStatus.when(
       data:
-          (articles) =>
-              LatestNewsScreen(articles: articles, category: 'Latest news'),
+          (articles) => LatestNewsScreen(articles: articles, category: source),
       error: (error, stackTrace) => Center(child: Text(error.toString())),
       loading: () => Center(child: CircularProgressIndicator()),
     );

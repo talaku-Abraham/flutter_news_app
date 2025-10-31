@@ -2,17 +2,21 @@ import 'package:news_app/data/model/article.dart';
 import 'package:news_app/data/model/source.dart';
 
 abstract class Repository {
-  Future<List<Article>> fetchEverything({
+  Future<List<Article>> fetchNewsByQuery({
     String? q,
     String? sources,
     String? domains,
+    String? sortBy,
+    String? language,
+
+    // popularity
   });
 
-  Future<List<Article>> fetchLatestNews({String? country});
+  Future<List<Article>> fetchNewsByCountry({required String country});
 
-  Future<List<Article>> fatchByCategory({String category = 'sports'});
+  Future<List<Article>> fetchNewsByCategory({required String category});
 
   Future<List<SourceOfNews>> fetchAllSourceOfNews();
 
-  Future<List<Article>> fetchAllNewsOfTheSource(String source);
+  Future<List<Article>> fetchNewsBySource({required String source});
 }

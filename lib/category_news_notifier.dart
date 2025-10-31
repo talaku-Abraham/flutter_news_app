@@ -23,7 +23,7 @@ class CategoryNewsNotifier
     state = AsyncValue.loading();
 
     try {
-      final articles = await _repo.fatchByCategory(category: category);
+      final articles = await _repo.fetchNewsByCategory(category: category);
 
       state = AsyncValue.data(articles);
     } catch (err, st) {

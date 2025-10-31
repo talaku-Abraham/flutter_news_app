@@ -64,6 +64,7 @@ class NewsConverter implements Converter {
           );
         } else {
           final newsResults = NewsResult.fromJson(mapData);
+          (mapData);
 
           final articles = newsAPiArticleToArticle(newsResults);
           final results = QueryResult(

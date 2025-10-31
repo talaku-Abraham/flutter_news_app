@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:news_app/containers/category_container.dart';
 import 'package:news_app/containers/latest_news_container.dart';
+import 'package:news_app/containers/news_by_source_container.dart';
 import 'package:news_app/containers/source_container.dart';
 import 'package:news_app/data/model/article.dart';
 import 'package:news_app/screens/detail_screen.dart';
@@ -41,6 +42,13 @@ List<GoRoute> appRoutes = [
         path: '/source',
         builder: (context, state) {
           return SourceContainer();
+        },
+      ),
+      GoRoute(
+        path: '/source/news',
+        builder: (context, state) {
+          final source = state.extra as String;
+          return NewsBySourceContainer(source: source);
         },
       ),
     ],

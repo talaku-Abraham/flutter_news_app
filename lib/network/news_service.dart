@@ -25,6 +25,8 @@ abstract class NewsService extends ChopperService implements ServiceInterface {
     @Query('q') String? q,
     @Query('sources') String? sources,
     @Query('domains') String? domains,
+    @Query('sortBy') String? sortBy,
+    @Query('language') String? language,
   });
 
   @override

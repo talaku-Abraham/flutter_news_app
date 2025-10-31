@@ -9,7 +9,7 @@ class CategoryContainer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final articlesAsync = ref.watch(categoryNewsNotifierProvider(category));
+    final articlesAsync = ref.watch(newsByCategoryProvider(category: category));
 
     return articlesAsync.when(
       data:
