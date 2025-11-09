@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:news_app/constants.dart';
+import 'package:news_app/utils/constants.dart';
 import 'package:news_app/data/model/article.dart';
 import 'package:news_app/widgets/build_image.dart';
 import 'package:news_app/widgets/icon_with_text.dart';
@@ -13,7 +13,7 @@ class NewsPreviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.go('/home/detail', extra: article),
+      onTap: () => context.push('/home/detail', extra: article),
       child: Card(
         elevation: 2,
         // margin: EdgeInsets.all(kMargin),

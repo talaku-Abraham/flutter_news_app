@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:news_app/components/build_image.dart';
 import 'package:news_app/components/build_social_signin_button.dart';
 import 'package:news_app/components/build_text_form_field.dart';
-import 'package:news_app/constants.dart';
+import 'package:news_app/utils/constants.dart';
 import 'package:news_app/providers/firebase_provider.dart';
 import 'package:news_app/widgets/build_image.dart';
 import 'package:news_app/widgets/custom_button.dart';

@@ -12,6 +12,7 @@ class SourcesScreen extends StatelessWidget {
     // final categoryState = ref.watch(sourcesNotifierProvider);
 
     return Scaffold(
+      appBar: AppBar(),
       body: ListView.builder(
         itemBuilder: (context, index) => SourceItem(source: sources[index]),
         itemCount: sources.length,
@@ -28,7 +29,7 @@ class SourceItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.go('/home/source/news', extra: source.id),
+      onTap: () => context.push('/home/source/news', extra: source.id),
       child: ListTile(
         leading: Text(source.id),
         title: Text(source.id),

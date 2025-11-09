@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/constants.dart';
+import 'package:news_app/utils/constants.dart';
 
 class IconWithText extends StatelessWidget {
   const IconWithText({super.key, required this.icon, required this.title});

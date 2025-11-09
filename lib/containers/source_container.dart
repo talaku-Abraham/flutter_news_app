@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:news_app/providers/service_provider.dart';
+import 'package:news_app/screens/error_screen.dart';
 import 'package:news_app/screens/sources_screen.dart';
 
 class SourceContainer extends ConsumerWidget {
@@ -11,7 +12,7 @@ class SourceContainer extends ConsumerWidget {
     final categoryState = ref.watch(sourceOfNewsProvider);
     return categoryState.when(
       data: (sources) => SourcesScreen(sources: sources),
-      error: (error, stackTrace) => Center(child: Text(error.toString())),
+      error: (error, stackTrace) => ErrorScreen(error: error.toString()),
       loading: () => Center(child: CircularProgressIndicator()),
     );
   }

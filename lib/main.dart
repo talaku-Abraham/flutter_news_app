@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:news_app/firebase_options.dart';
-import 'package:news_app/network/news_service.dart';
+import 'package:news_app/data/network/chopper_services/news_service.dart';
 import 'package:news_app/providers/service_provider.dart';
 import 'package:news_app/providers/route_provider.dart';
 

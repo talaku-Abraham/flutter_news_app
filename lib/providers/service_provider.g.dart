@@ -6,7 +6,7 @@ part of 'service_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$newsByQueryHash() => r'd2b85c61f6bfd21b337d3f359bf3de6e86154a2c';
+String _$newsByQueryHash() => r'efe407d583e4a1c057e7278b00c40572d970567c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -78,7 +78,7 @@ class NewsByQueryFamily extends Family<AsyncValue<List<Article>>> {
 }
 
 /// See also [newsByQuery].
-class NewsByQueryProvider extends AutoDisposeFutureProvider<List<Article>> {
+class NewsByQueryProvider extends FutureProvider<List<Article>> {
   /// See also [newsByQuery].
   NewsByQueryProvider({
     required String q,
@@ -142,7 +142,7 @@ class NewsByQueryProvider extends AutoDisposeFutureProvider<List<Article>> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<Article>> createElement() {
+  FutureProviderElement<List<Article>> createElement() {
     return _NewsByQueryProviderElement(this);
   }
 
@@ -165,7 +165,7 @@ class NewsByQueryProvider extends AutoDisposeFutureProvider<List<Article>> {
   }
 }
 
-mixin NewsByQueryRef on AutoDisposeFutureProviderRef<List<Article>> {
+mixin NewsByQueryRef on FutureProviderRef<List<Article>> {
   /// The parameter `q` of this provider.
   String get q;
 
@@ -176,8 +176,7 @@ mixin NewsByQueryRef on AutoDisposeFutureProviderRef<List<Article>> {
   String? get sortBy;
 }
 
-class _NewsByQueryProviderElement
-    extends AutoDisposeFutureProviderElement<List<Article>>
+class _NewsByQueryProviderElement extends FutureProviderElement<List<Article>>
     with NewsByQueryRef {
   _NewsByQueryProviderElement(super.provider);
 
@@ -189,7 +188,7 @@ class _NewsByQueryProviderElement
   String? get sortBy => (origin as NewsByQueryProvider).sortBy;
 }
 
-String _$newsByCategoryHash() => r'39d80656f3eb8fa86e21ae83ae927fb8f2722b8b';
+String _$newsByCategoryHash() => r'959b0a4940502754dded2a4545457ead24637a97';
 
 /// See also [newsByCategory].
 @ProviderFor(newsByCategory)
@@ -234,7 +233,7 @@ class NewsByCategoryFamily extends Family<AsyncValue<List<Article>>> {
 }
 
 /// See also [newsByCategory].
-class NewsByCategoryProvider extends AutoDisposeFutureProvider<List<Article>> {
+class NewsByCategoryProvider extends FutureProvider<List<Article>> {
   /// See also [newsByCategory].
   NewsByCategoryProvider({
     required String category,
@@ -286,7 +285,7 @@ class NewsByCategoryProvider extends AutoDisposeFutureProvider<List<Article>> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<Article>> createElement() {
+  FutureProviderElement<List<Article>> createElement() {
     return _NewsByCategoryProviderElement(this);
   }
 
@@ -304,21 +303,20 @@ class NewsByCategoryProvider extends AutoDisposeFutureProvider<List<Article>> {
   }
 }
 
-mixin NewsByCategoryRef on AutoDisposeFutureProviderRef<List<Article>> {
+mixin NewsByCategoryRef on FutureProviderRef<List<Article>> {
   /// The parameter `category` of this provider.
   String get category;
 }
 
 class _NewsByCategoryProviderElement
-    extends AutoDisposeFutureProviderElement<List<Article>>
-    with NewsByCategoryRef {
+    extends FutureProviderElement<List<Article>> with NewsByCategoryRef {
   _NewsByCategoryProviderElement(super.provider);
 
   @override
   String get category => (origin as NewsByCategoryProvider).category;
 }
 
-String _$newsBySourceHash() => r'64f545b68d9c7772304ffaaebe7c4e85a596bde0';
+String _$newsBySourceHash() => r'ac65e6d84eb92e7d842d1fd47dbe1734f17885de';
 
 /// See also [newsBySource].
 @ProviderFor(newsBySource)
@@ -447,12 +445,11 @@ class _NewsBySourceProviderElement
   String get source => (origin as NewsBySourceProvider).source;
 }
 
-String _$sourceOfNewsHash() => r'd9d51dfbdbdc0fc60944a27b827d9e9db6a8fc5f';
+String _$sourceOfNewsHash() => r'a3b0aac4a1d53d8f5eeeb2268a8d950d5185fb05';
 
 /// See also [sourceOfNews].
 @ProviderFor(sourceOfNews)
-final sourceOfNewsProvider =
-    AutoDisposeFutureProvider<List<SourceOfNews>>.internal(
+final sourceOfNewsProvider = FutureProvider<List<SourceOfNews>>.internal(
   sourceOfNews,
   name: r'sourceOfNewsProvider',
   debugGetCreateSourceHash:
@@ -461,6 +458,6 @@ final sourceOfNewsProvider =
   allTransitiveDependencies: null,
 );
 
-typedef SourceOfNewsRef = AutoDisposeFutureProviderRef<List<SourceOfNews>>;
+typedef SourceOfNewsRef = FutureProviderRef<List<SourceOfNews>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

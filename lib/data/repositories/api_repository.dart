@@ -1,9 +1,15 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart';
 import 'package:news_app/data/model/article.dart';
 import 'package:news_app/data/model/source.dart';
 import 'package:news_app/data/repositories/repository.dart';
-import 'package:news_app/network/model_response.dart';
-import 'package:news_app/network/query_result.dart';
-import 'package:news_app/network/service_interface.dart';
+import 'package:news_app/utils/safe_api_call.dart';
+import 'package:news_app/data/network/model_response.dart';
+import 'package:news_app/data/network/query_result.dart';
+import 'package:news_app/data/network/service_interface.dart';
 
 class ApiRepository implements Repository {
   final ServiceInterface _service;
@@ -18,76 +24,70 @@ class ApiRepository implements Repository {
     String? language,
     String? sortBy,
   }) async {
-    try {
-      final res = await _service.queryEverything(
+    final res = await safeApiCall(
+      () => _service.queryEverything(
         q: q,
         domains: domains,
         sources: sources,
         language: language,
         sortBy: sortBy,
-      );
+      ),
+    );
+    return returnArticlesOrThrowError(res);
+    // final res = await  _service.queryEverything(
+    //   q: q,
+    //   domains: domains,
+    //   sources: sources,
+    //   language: language,
+    //   sortBy: sortBy,
+    // );
 
-      return returnListofArticles(res);
-    } catch (e) {
-      print(e.toString());
-      throw Exception('service problem: inside the API Repo');
+    // return returnListofArticles(res);
+  }
+
+  List<Article> returnArticlesOrThrowError(Result<dynamic> res) {
+    if (res is Success<QueryResult>) {
+      return res.value.articles;
+    } else if (res is Error<QueryResult>) {
+      throw res.exception;
+    } else {
+      throw Exception('Unexpected error happend');
     }
   }
 
   @override
   Future<List<Article>> fetchNewsByCountry({required String country}) async {
-    final res = await _service.topHeadlines(country: country);
+    final res = await safeApiCall(
+      () => _service.topHeadlines(country: country),
+    );
 
-    return returnListofArticles(res);
+    return returnArticlesOrThrowError(res);
   }
 
   @override
   Future<List<Article>> fetchNewsByCategory({String? category}) async {
-    final res = await _service.topHeadlines(category: category);
-
-    return returnListofArticles(res);
-  }
-
-  List<Article> returnListofArticles(NewsResponse res) {
-    if (res.isSuccessful) {
-      final result = res.body;
-
-      if (result is Success<QueryResult>) {
-        return result.value.articles;
-      } else {
-        throw Exception("Unexpected Success Response Type");
-      }
-    } else {
-      final error = res.error;
-      if (error is Error<QueryResult>) {
-        throw Exception(error.exception);
-      } else {
-        throw Exception("Unexpected error message");
-      }
-    }
+    final res = await safeApiCall(
+      () => _service.topHeadlines(category: category),
+    );
+    return returnArticlesOrThrowError(res);
   }
 
   @override
   Future<List<SourceOfNews>> fetchAllSourceOfNews() async {
-    final res = await _service.sources();
+    final res = await safeApiCall<QuerySource>(_service.sources);
 
-    if (res.isSuccessful) {
-      final result = res.body;
-
-      if (result is Success<QuerySource>) {
-        // final List<SourceOfNews> a =
-        return result.value.sources;
-      } else {
-        throw Exception("Unexpected success Response");
-      }
+    if (res is Success<QuerySource>) {
+      return res.value.sources;
+    } else if (res is Error<QuerySource>) {
+      throw res.exception;
     } else {
-      throw Exception("Error is happening");
+      throw Exception("UnExpected Error");
     }
   }
 
   @override
   Future<List<Article>> fetchNewsBySource({required String source}) async {
-    final res = await _service.topHeadlines(sources: source);
-    return returnListofArticles(res);
+    final res = await safeApiCall(() => _service.topHeadlines(sources: source));
+    return returnArticlesOrThrowError(res);
   }
 }

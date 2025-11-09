@@ -1,10 +1,11 @@
 import 'package:chopper/chopper.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:news_app/network/model_response.dart';
-import 'package:news_app/network/news_converter.dart';
-import 'package:news_app/network/query_result.dart';
-import 'package:news_app/network/service_interface.dart';
+import 'package:news_app/data/network/model_response.dart';
+import 'package:news_app/data/network/converters/news_converter.dart';
+import 'package:news_app/data/network/query_result.dart';
+import 'package:news_app/data/network/service_interface.dart';
 import 'package:news_app/data/model/source.dart';
+import 'package:news_app/data/network/converters/source_converter.dart';
 part 'news_service.chopper.dart';
 
 final String apikey = dotenv.env['apikey'] ?? '';
@@ -39,6 +40,7 @@ abstract class NewsService extends ChopperService implements ServiceInterface {
     @Query('page') int? page,
   });
 
+  @FactoryConverter(response: sourceConverterResponse)
   @override
   @Get(path: '/v2/top-headlines/sources')
   Future<SourceResponse> sources();
@@ -55,3 +57,11 @@ abstract class NewsService extends ChopperService implements ServiceInterface {
     return _$NewsService(client);
   }
 }
+
+
+  // @FactoryConverter(
+  //     request: FormUrlEncodedConverter.requestFactory,
+  //     response: convertResponse,
+  // )
+  // @Post(path: '/')
+  // Future<Response> post(@Field() String foo, @Field() int bar);

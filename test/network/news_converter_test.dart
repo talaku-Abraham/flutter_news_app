@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:chopper/chopper.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:news_app/network/model_response.dart';
-import 'package:news_app/network/news_converter.dart';
-import 'package:news_app/network/query_result.dart';
+import 'package:news_app/data/network/model_response.dart';
+import 'package:news_app/data/network/converters/news_converter.dart';
+import 'package:news_app/data/network/query_result.dart';
 
 import '../fakes/fake_data.dart';
 

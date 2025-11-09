@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:news_app/custom_drawer.dart';
+import 'package:news_app/widgets/custom_drawer.dart';
 import 'package:news_app/providers/firebase_provider.dart';
 
 import 'package:news_app/providers/service_provider.dart';
@@ -53,7 +53,7 @@ class HomeScreen extends ConsumerWidget {
                     TopStory(articles: articles),
                   ],
                 ),
-            error: (error, stackTrace) => Text(error.toString()),
+            error: (error, stackTrace) => Center(child: Text(error.toString())),
             loading: () => Center(child: CircularProgressIndicator()),
           ),
           Padding(

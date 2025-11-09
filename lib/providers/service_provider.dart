@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:news_app/data/model/article.dart';
 import 'package:news_app/data/model/source.dart';
 import 'package:news_app/data/repositories/api_repository.dart';
 import 'package:news_app/data/repositories/repository.dart';
-import 'package:news_app/network/service_interface.dart';
+import 'package:news_app/data/network/service_interface.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'service_provider.g.dart';
@@ -17,7 +19,7 @@ final repositoryProvider = Provider<Repository>(
   ApiRepository(ref.watch(serviceProvider)),
 );
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<Article>> newsByQuery(
   NewsByQueryRef ref, {
   required String q,
@@ -29,7 +31,7 @@ Future<List<Article>> newsByQuery(
       .fetchNewsByQuery(q: q, language: language, sortBy: sortBy);
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<Article>> newsByCategory(
   NewsByCategoryRef ref, {
   required String category,
@@ -42,39 +44,38 @@ Future<List<Article>> newsBySource(
   NewsBySourceRef ref, {
   required String source,
 }) {
+  print('init: newsBySourceProvider');
+  ref.onDispose(() => print('destroyed newsBySourceProvider'));
+  ref.onCancel(() => print('canceled: newsBySourceProvider'));
+  ref.onResume(() => print('resumed: newsBySourceProvider'));
+  final link = ref.keepAlive();
+
+  Timer? timer;
+
+  ref.onCancel(() {
+    print('timer set for 10 seconds');
+    timer = Timer(Duration(seconds: 10), () => link.close());
+  });
+
+  ref.onResume(() {
+    print('timer got cancelled in resume');
+    timer?.cancel();
+  });
+
+  ref.onDispose(() {
+    print('timer got cancelled on dispose');
+    timer?.cancel();
+  });
+
   return ref.watch(repositoryProvider).fetchNewsBySource(source: source);
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<SourceOfNews>> sourceOfNews(SourceOfNewsRef ref) {
+  print('init: sourceOfNewsProvider');
+  ref.onDispose(() => print('destroyed sourceOfNewsProvider'));
+  ref.onCancel(() => print('canceled: sourceOfNewsProvider'));
+  ref.onResume(() => print('resumed: sourceOfNewsProvider'));
+
   return ref.watch(repositoryProvider).fetchAllSourceOfNews();
 }
-
-// final tempNotifierProvider =
-//     NotifierProvider<TempNotifier, AsyncValue<List<Article>>>(TempNotifier.new);
-
-// final latestNewsNotifierProvider =
-//     NotifierProvider<LatestNewsNotifier, AsyncValue<List<Article>>>(
-//       LatestNewsNotifier.new,
-//     );
-// final categoryNewsNotifierProvider = NotifierProvider.family<
-//   CategoryNewsNotifier,
-//   AsyncValue<List<Article>>,
-//   String
-// >(CategoryNewsNotifier.new);
-
-// final everyNewsNotifierProvider = NotifierProvider.family<
-//   EveryNewsNotifier,
-//   AsyncValue<List<Article>>,
-//   String?
-// >(EveryNewsNotifier.new);
-
-// final newsByQueryProvider = FutureProvider.autoDispose
-//     .family<List<Article>, String>((ref, q) async {
-//       final repo = ref.read(repositoryProvider);
-//       return await repo.fetchNewsByQuery(q: q);
-//     });
-// final sourcesNotifierProvider =
-//     NotifierProvider<SourceNotifier, AsyncValue<List<SourceOfNews>>>(
-//       SourceNotifier.new,
-//     );

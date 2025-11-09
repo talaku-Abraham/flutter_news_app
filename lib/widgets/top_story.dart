@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:news_app/constants.dart';
+import 'package:news_app/utils/constants.dart';
 import 'package:news_app/data/model/article.dart';
 import 'package:news_app/widgets/build_image.dart';
 import 'package:news_app/widgets/custom_button.dart';
