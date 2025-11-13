@@ -1,5 +1,5 @@
 import 'package:chopper/chopper.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:news_app/data/network/chopper_services/add_header_interceptor.dart';
 import 'package:news_app/data/network/model_response.dart';
 import 'package:news_app/data/network/converters/news_converter.dart';
 import 'package:news_app/data/network/query_result.dart';
@@ -8,15 +8,14 @@ import 'package:news_app/data/model/source.dart';
 import 'package:news_app/data/network/converters/source_converter.dart';
 part 'news_service.chopper.dart';
 
-final String apikey = dotenv.env['apikey'] ?? '';
 const String apiUrl = "https://newsapi.org/";
 
 // interceptor to add the api key
-Request _addQuery(Request req) {
-  final param = Map<String, dynamic>.from(req.parameters);
-  param['apiKey'] = apikey;
-  return req.copyWith(parameters: param);
-}
+// Request _addQuery(Request req) {
+//   final param = Map<String, dynamic>.from(req.parameters);
+
+//   return req.copyWith(parameters: param);
+// }
 
 @ChopperApi()
 abstract class NewsService extends ChopperService implements ServiceInterface {
@@ -48,7 +47,7 @@ abstract class NewsService extends ChopperService implements ServiceInterface {
   static NewsService create() {
     final client = ChopperClient(
       baseUrl: Uri.parse(apiUrl),
-      interceptors: [_addQuery, HttpLoggingInterceptor()],
+      interceptors: [AddHeaderInterceptor(), HttpLoggingInterceptor()],
       converter: NewsConverter(),
       errorConverter: const JsonConverter(),
       services: [_$NewsService()],

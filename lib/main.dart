@@ -2,13 +2,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 
 import 'package:news_app/firebase_options.dart';
 import 'package:news_app/data/network/chopper_services/news_service.dart';
 import 'package:news_app/providers/service_provider.dart';
 import 'package:news_app/providers/route_provider.dart';
 
+void _setupLogging() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen(
+    (rec) => print('${rec.level.name}: ${rec.time} : ${rec.message}'),
+  );
+}
+
 void main() async {
+  _setupLogging();
   await dotenv.load(fileName: ".env");
   final service = NewsService.create();
 

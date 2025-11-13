@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
 import 'package:news_app/data/model/article.dart';
 import 'package:news_app/data/model/source.dart';
 import 'package:news_app/data/repositories/repository.dart';
@@ -34,15 +31,6 @@ class ApiRepository implements Repository {
       ),
     );
     return returnArticlesOrThrowError(res);
-    // final res = await  _service.queryEverything(
-    //   q: q,
-    //   domains: domains,
-    //   sources: sources,
-    //   language: language,
-    //   sortBy: sortBy,
-    // );
-
-    // return returnListofArticles(res);
   }
 
   List<Article> returnArticlesOrThrowError(Result<dynamic> res) {
