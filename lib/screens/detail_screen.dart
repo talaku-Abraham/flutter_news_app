@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:news_app/providers/firebase_provider.dart';
 import 'package:news_app/utils/constants.dart';
 import 'package:news_app/data/model/article.dart';
 import 'package:news_app/widgets/build_image.dart';
@@ -29,7 +31,7 @@ Future<void> openArticle(String url) async {
   // }
 }
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends ConsumerWidget {
   final Article article;
   // final String imageUrl;
   // "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -37,7 +39,10 @@ class DetailScreen extends StatelessWidget {
   const DetailScreen({super.key, required this.article});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favoriteDao = ref.watch(favoriteDaoProvider);
+    final userDao = ref.watch(userDaoProvider);
+
     return Scaffold(
       appBar: AppBar(title: Text("News", style: TextStyle())),
       body: Container(
@@ -83,6 +88,12 @@ class DetailScreen extends StatelessWidget {
                     CustomButton(
                       label: 'Read More',
                       onTap: () => openArticle(article.url),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        favoriteDao.addFavorite(userDao.userId()!, article.url);
+                      },
+                      icon: Icon(Icons.favorite),
                     ),
                   ],
                 ),
